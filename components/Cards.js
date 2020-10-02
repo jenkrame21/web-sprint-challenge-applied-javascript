@@ -21,9 +21,11 @@
 //
 // Use your function to create a card for each of the articles, and append each card to the DOM.
 
+let axiosData = null
+
 const cardsContainer = document.querySelector('.cards-container')
 
-function cardMaker(artObj){
+function cardMaker(artObj) {
 
     const cardBox = document.createElement('div');
     const headerTitle = document.createElement('div');
@@ -37,7 +39,7 @@ function cardMaker(artObj){
     authorBox.classList.add('author');
     imgBox.classList.add('img-container');
 
-    imgURL.src = `${artObj.authorPhoto}`;
+    imgURL.src = artObj.authorPhoto;
 
     cardBox.appendChild(headerTitle);
     cardBox.appendChild(authorBox);
@@ -45,21 +47,40 @@ function cardMaker(artObj){
     imgBox.appendChild(imgURL);
     authorBox.appendChild(authorNameText);
 
-    headerTitle.textContent = `${artObj.headline}`;
-    authorNameText.textContent = `"By ", ${artObj.authorName}`;
+    headerTitle.textContent = artObj.headline;
+    authorNameText.textContent = artObj.authorName;
 
     cardBox.addEventListener('click', () => {
-    console.log(headerTitle);
-  })
+        console.log(headerTitle);
+    })
 
-    return cardBox
+    cardBox.addEventListener('click', (eventObj) => {
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.classList.remove('active')
+        })
+    })
+
+    return cardsContainer.appendChild(cardBox)
 }
 
 axios.get('https://lambda-times-api.herokuapp.com/articles')
     .then(res => {
-        const data = res.data.articles
-        console.log(data)
+        axiosData = res.data.articles;
+        console.log(axiosData);
     })
     .catch(drama => {
-        console.log(drama)
+        console.log(drama);
     })
+
+setTimeout(() => {
+    document.querySelectorAll('.tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+            const artArray = axiosData[tab.textContent]
+            artArray.forEach(v => {
+                cardMaker(v);
+                console.log(v)
+            })
+        })
+    })
+    console.log(document.querySelectorAll('.tab'))
+}, 5000)

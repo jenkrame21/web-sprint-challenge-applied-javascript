@@ -12,19 +12,20 @@
 
 const topicBox = document.querySelector('.topics');
 
-function tabMaker(topics) {
+function tabMaker(topic) {
 
     const tabBox = document.createElement('div');
 
     tabBox.classList.add('tab');
 
-    tabBox.textContent = topics;
+    tabBox.textContent = topic;
 
-    topics.forEach(items => {
-        const newTab = document.createElement('div');
-        newTab.textContent = items;
-        tabBox.appendChild(newTab);
-    });
+    tabBox.addEventListener('click', (eventObj) => {
+        document.querySelectorAll('.tab').forEach(v => {
+            v.classList.remove('active')
+        })
+        tabBox.classList.add('active')
+    })
 
     return topicBox.appendChild(tabBox);
 
@@ -32,13 +33,16 @@ function tabMaker(topics) {
 
 axios.get('https://lambda-times-api.herokuapp.com/topics')
     .then(res => {
-        const data = res.data.topics;
-        console.log(data);
-        tabMaker(data);
+        topicData(res)
     })
     .catch(drama => {
         console.log(drama);
     });
 
 
-
+const topicData = res =>{
+    const data = res.data.topics;
+    data.forEach(items =>{
+        tabMaker(items)
+    })
+}
