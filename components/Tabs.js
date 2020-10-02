@@ -20,7 +20,7 @@ function tabMaker(topic) {
 
     tabBox.textContent = topic;
 
-    tabBox.addEventListener('click', (eventObj) => {
+    tabBox.addEventListener('click', () => {
         document.querySelectorAll('.tab').forEach(v => {
             v.classList.remove('active')
         })

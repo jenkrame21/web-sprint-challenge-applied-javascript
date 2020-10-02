@@ -51,13 +51,10 @@ function cardMaker(artObj) {
     authorNameText.textContent = artObj.authorName;
 
     cardBox.addEventListener('click', () => {
-        console.log(headerTitle);
-    })
-
-    cardBox.addEventListener('click', (eventObj) => {
-        document.querySelectorAll('.tab').forEach(tab => {
-            tab.classList.remove('active')
+        document.querySelectorAll('.card').forEach(v => {
+            v.classList.remove('active')
         })
+        cardBox.classList.add('active')
     })
 
     return cardsContainer.appendChild(cardBox)
