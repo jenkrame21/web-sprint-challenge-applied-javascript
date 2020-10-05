@@ -10,39 +10,37 @@
 //
 // NOTE: you do _not_ need to install axios as it's included in the HTML via script element
 
-const topicBox = document.querySelector('.topics');
-
-function tabMaker(topic) {
-
-    const tabBox = document.createElement('div');
-
-    tabBox.classList.add('tab');
-
-    tabBox.textContent = topic;
-
-    tabBox.addEventListener('click', () => {
-        document.querySelectorAll('.tab').forEach(v => {
-            v.classList.remove('active')
-        })
-        tabBox.classList.add('active')
-    })
-
-    return topicBox.appendChild(tabBox);
-
-}
-
+// Linking data from outside source to here
 axios.get('https://lambda-times-api.herokuapp.com/topics')
+    // If successful at grabbing data, do this:
     .then(res => {
-        topicData(res)
+        res.data.topics.map(topic => tabMaker(topic))
     })
-    .catch(drama => {
-        console.log(drama);
+    // If error, do this:
+    .catch(err => {
+        console.log(err);
     });
 
+// Function to create new tabs
+function tabMaker(axiosData) {
 
-const topicData = res =>{
-    const data = res.data.topics;
-    data.forEach(items =>{
-        tabMaker(items)
-    })
+    // Creating a New Element for HTML
+    const tabBox = document.createElement('div');
+
+    // Creating a Class Name for New HTML Element
+    tabBox.classList.add('tab');
+
+    // Linking text source to 'topic'
+    tabBox.textContent = (`${axiosData}`);
+
+    // Assign 'topicBox' to select one class of 'topics' in HTML
+    const topicBox = document.querySelector('.topics');
+
+    // Create parent/child relationship with 'topicBox' and 'tabBox'
+    topicBox.appendChild(tabBox);
+
+    // Returns newly created 'tabBox'
+    return tabBox;
+
 }
+
