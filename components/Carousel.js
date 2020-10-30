@@ -47,12 +47,21 @@ function carouselMaker() {
   carouselBox.appendChild(turnTablePic);
   carouselBox.appendChild(rightButton);
 
+  leftButton.addEventListener('click', () => {
+    leftButton.classList.toggle('selected');
+  })
+
+  rightButton.addEventListener('click', () => {
+    rightButton.classList.toggle('selected');
+  })
+
   // Returns newly created 'carouselBox'
   return carouselBox
   
 }
 
 carouselCon.appendChild(carouselMaker());
+
 
 /* HTML:
   <div class="carousel">

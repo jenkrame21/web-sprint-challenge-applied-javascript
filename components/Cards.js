@@ -26,8 +26,9 @@ axios
     .get('https://lambda-times-api.herokuapp.com/articles')
     // If successful at grabbing data, do this:
     .then(res => {
-        
+        // Declared article variable to Object.values of res.data.articles
         const article = Object.values(res.data.articles)
+        // Looping through article with the argument of articles
         article.forEach(articles => {
             articles.forEach(allArticles => {
                 const articleCard = cardMaker(allArticles)
