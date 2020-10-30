@@ -14,12 +14,20 @@
 axios.get('https://lambda-times-api.herokuapp.com/topics')
     // If successful at grabbing data, do this:
     .then(res => {
-        res.data.topics.map(topic => tabMaker(topic))
+        // Looping through each topic tab
+        const topicData = res.data.topics
+        topicData.forEach(topics => {
+            const tab = tabMaker(topics)
+            topicBox.append(tab);
+        })
     })
     // If error, do this:
     .catch(err => {
         console.log(err);
     });
+
+// Assign 'topicBox' to select one class of 'topics' in HTML
+const topicBox = document.querySelector('div.topics');
 
 // Function to create new tabs
 function tabMaker(axiosData) {
@@ -31,13 +39,7 @@ function tabMaker(axiosData) {
     tabBox.classList.add('tab');
 
     // Linking text source to 'topic'
-    tabBox.textContent = (`${axiosData}`);
-
-    // Assign 'topicBox' to select one class of 'topics' in HTML
-    const topicBox = document.querySelector('.topics');
-
-    // Create parent/child relationship with 'topicBox' and 'tabBox'
-    topicBox.appendChild(tabBox);
+    tabBox.textContent = axiosData
 
     // Returns newly created 'tabBox'
     return tabBox;

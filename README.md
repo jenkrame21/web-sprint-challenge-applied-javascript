@@ -28,7 +28,7 @@ Be prepared to demonstrate your understanding of this week's concepts by answeri
 
 1. What is the DOM?
 
-- It's a programming interface for html documents.
+- It's a programming interface for html documents that can be manipulated by developers through JavaScript.
 
 2. What is an event?
 

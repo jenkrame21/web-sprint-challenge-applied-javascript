@@ -21,24 +21,8 @@
 //
 // Use your function to create a card for each of the articles, and append each card to the DOM.
 
-// Linking data from outside source to here
-axios.get('https://lambda-times-api.herokuapp.com/articles')
-    // If successful at grabbing data, do this:
-    .then(res => {
-        Object.values(res.data.articles).map(item => {
-            item.map(data => cardMaker(data))
-        });
-    })
-    // If error, do this:
-    .catch(err => {
-        console.log(err);
-    })
-
 // Function that creates every card this specific way
 function cardMaker(data) {
-
-    // Declared variable 'cardsContainer' to link to class named 'cards-container'
-    const cardsContainer = document.querySelector('.cards-container')
 
     // Creating New Elements for HTML
     const cardBox = document.createElement('div');
@@ -54,20 +38,53 @@ function cardMaker(data) {
     authorBox.classList.add('author');
     imgBox.classList.add('img-container');
 
+    // Linking source to 'data' outside function
+    headerTitle.textContent = data.headline;
+    imgURL.src = data.authorPhoto;
+    authorNameText.textContent = data.authorName;
+
     // Creating Parent / Child relationships for New HTML Elements
-    cardsContainer.appendChild(cardBox);
     cardBox.appendChild(headerTitle);
     cardBox.appendChild(authorBox);
     authorBox.appendChild(imgBox)
     imgBox.appendChild(imgURL);
     authorBox.appendChild(authorNameText);
 
-    // Linking source to 'data' outside function
-    headerTitle.textContent = data.headline;
-    imgURL.src = data.authorPhoto;
-    authorNameText.textContent = data.authorName;
-
+    // Creating an event listener for cardBox
+    cardBox.addEventListener('click', () => {
+        console.log(data.headline)
+    })
 
     // Returns main container of cards creating parent/child relationship with cardBox
     return cardBox;
+    
 }
+
+// Declared variable 'cardsContainer' to link to class named 'cards-container'
+const cardsContainer = document.querySelector('.cards-container')
+
+// Linking data from outside source to here
+axios.get('https://lambda-times-api.herokuapp.com/articles')
+    // If successful at grabbing data, do this:
+    .then((res) => {
+        
+        res.data.articles.javascript.forEach((data) => {
+            cardsContainer.append(cardMaker(data))
+        });
+        res.data.articles.bootstrap.forEach((data) => {
+            cardsContainer.append(cardMaker(data))
+        });
+        res.data.articles.technology.forEach((data) => {
+            cardsContainer.append(cardMaker(data))
+        });
+        res.data.articles.jquery.forEach((data) => {
+            cardsContainer.append(cardMaker(data))
+        });
+        res.data.articles.node.forEach((data) => {
+            cardsContainer.append(cardMaker(data))
+        });
+    })
+    // If error, do this:
+    .catch(err => {
+        console.log(err);
+    })
