@@ -21,6 +21,30 @@
 //
 // Use your function to create a card for each of the articles, and append each card to the DOM.
 
+// Linking data from outside source to here
+axios
+    .get('https://lambda-times-api.herokuapp.com/articles')
+    // If successful at grabbing data, do this:
+    .then(res => {
+        
+        const article = Object.values(res.data.articles)
+        article.forEach(articles => {
+            articles.forEach(allArticles => {
+                const articleCard = cardMaker(allArticles)
+                cardsContainer.append(articleCard);
+            })
+        })
+    })
+    // If error, do this:
+    .catch(err => {
+        console.log(err);
+    })
+
+
+// Declared variable 'cardsContainer' to link to class named 'cards-container'
+const cardsContainer = document.querySelector('.cards-container')
+
+
 // Function that creates every card this specific way
 function cardMaker(data) {
 
@@ -41,7 +65,7 @@ function cardMaker(data) {
     // Linking source to 'data' outside function
     headerTitle.textContent = data.headline;
     imgURL.src = data.authorPhoto;
-    authorNameText.textContent = data.authorName;
+    authorNameText.textContent = `BY: ${data.authorName}`;
 
     // Creating Parent / Child relationships for New HTML Elements
     cardBox.appendChild(headerTitle);
@@ -59,32 +83,3 @@ function cardMaker(data) {
     return cardBox;
     
 }
-
-// Declared variable 'cardsContainer' to link to class named 'cards-container'
-const cardsContainer = document.querySelector('.cards-container')
-
-// Linking data from outside source to here
-axios.get('https://lambda-times-api.herokuapp.com/articles')
-    // If successful at grabbing data, do this:
-    .then((res) => {
-        
-        res.data.articles.javascript.forEach((data) => {
-            cardsContainer.append(cardMaker(data))
-        });
-        res.data.articles.bootstrap.forEach((data) => {
-            cardsContainer.append(cardMaker(data))
-        });
-        res.data.articles.technology.forEach((data) => {
-            cardsContainer.append(cardMaker(data))
-        });
-        res.data.articles.jquery.forEach((data) => {
-            cardsContainer.append(cardMaker(data))
-        });
-        res.data.articles.node.forEach((data) => {
-            cardsContainer.append(cardMaker(data))
-        });
-    })
-    // If error, do this:
-    .catch(err => {
-        console.log(err);
-    })

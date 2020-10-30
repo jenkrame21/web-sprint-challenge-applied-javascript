@@ -11,13 +11,17 @@
 // NOTE: you do _not_ need to install axios as it's included in the HTML via script element
 
 // Linking data from outside source to here
-axios.get('https://lambda-times-api.herokuapp.com/topics')
+axios
+    .get('https://lambda-times-api.herokuapp.com/topics')
     // If successful at grabbing data, do this:
     .then(res => {
-        // Looping through each topic tab
+        // Declared variable to response data
         const topicData = res.data.topics
+        // Looping through each topic tab        
         topicData.forEach(topics => {
+            // Declared variable to tabMaker with topics
             const tab = tabMaker(topics)
+            // Appended topicBox to variable tab
             topicBox.append(tab);
         })
     })
@@ -39,7 +43,7 @@ function tabMaker(axiosData) {
     tabBox.classList.add('tab');
 
     // Linking text source to 'topic'
-    tabBox.textContent = axiosData
+    tabBox.textContent = axiosData;
 
     // Returns newly created 'tabBox'
     return tabBox;
